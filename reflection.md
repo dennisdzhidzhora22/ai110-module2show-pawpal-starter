@@ -2,6 +2,11 @@
 
 ## 1. System Design
 
+Three core actions users should be able to perform:
+- Add a pet
+- Add a task for a pet to the schedule
+- See today's scheduled tasks for a pet
+
 **a. Initial design**
 
 - Briefly describe your initial UML design.
