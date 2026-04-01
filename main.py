@@ -1,4 +1,4 @@
-from pawpal_system import Frequency, Task, Pet, Scheduler, Owner
+from pawpal_system import Frequency, Priority, Task, Pet, Owner
 from datetime import datetime, date
 
 # Create owner
@@ -17,42 +17,50 @@ t1 = Task(
     name="Feed Buddy",
     start_time=datetime(2025, 6, 1, 8, 0),
     end_time=datetime(2025, 6, 1, 8, 30),
-    priority=1,
+    priority=Priority.HIGH,
     description="Feed Buddy his breakfast",
 )
 t2 = Task(
     name="Walk Buddy",
     start_time=datetime(2025, 6, 1, 9, 0),
     end_time=datetime(2025, 6, 1, 9, 30),
-    priority=2,
+    priority=Priority.MEDIUM,
     description="Take Buddy for a walk",
 )
 t3 = Task(
     name="Play with Buddy",
     start_time=datetime(2025, 6, 1, 10, 0),
     end_time=datetime(2025, 6, 1, 10, 30),
-    priority=3
+    priority=Priority.LOW
 )
 
 t4 = Task(
     name="Feed Mittens",
     start_time=datetime(2025, 6, 1, 7, 0),
     end_time=datetime(2025, 6, 1, 7, 30),
-    priority=1,
+    priority=Priority.HIGH,
     description="Feed Mittens her breakfast"
 )
 t5 = Task(
     name="Clean up after Mittens",
     start_time=datetime(2025, 6, 1, 8, 0),
     end_time=datetime(2025, 6, 1, 8, 15),
-    priority=2,
+    priority=Priority.MEDIUM,
     description="Clean Mittens' litterbox"
 )
 t6 = Task(
     name="Play with Mittens",
     start_time=datetime(2025, 6, 1, 10, 30),
     end_time=datetime(2025, 6, 1, 11, 0),
-    priority=3
+    priority=Priority.LOW
+)
+
+# Conflicting with t6
+t7 = Task(
+    name="Brush Mittens' fur",
+    start_time=datetime(2025, 6, 1, 10, 30),
+    end_time=datetime(2025, 6, 1, 11, 0),
+    priority=Priority.LOW
 )
 
 # Add tasks for both pets
@@ -62,6 +70,8 @@ o1.scheduler.add_task(p1, t3)
 o1.scheduler.add_task(p2, t4)
 o1.scheduler.add_task(p2, t5)
 o1.scheduler.add_task(p2, t6)
+
+o1.scheduler.add_task(p2, t7)
 
 print("Today's Schedule")
 print("-" * 40)

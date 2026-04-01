@@ -1,4 +1,6 @@
 import streamlit as st
+from pawpal_system import Owner, Pet, Task, Priority
+from datetime import datetime, date, timedelta
 
 st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
 
@@ -40,6 +42,10 @@ st.divider()
 
 st.subheader("Quick Demo Inputs (UI only)")
 owner_name = st.text_input("Owner name", value="Jordan")
+if "owner" not in st.session_state:
+    st.session_state.owner = Owner(owner_name)
+    st.session_state.time = datetime(2025, 6, 1, 6, 0)
+
 pet_name = st.text_input("Pet name", value="Mochi")
 species = st.selectbox("Species", ["dog", "cat", "other"])
 
@@ -48,6 +54,8 @@ st.caption("Add a few tasks. In your final version, these should feed into your 
 
 if "tasks" not in st.session_state:
     st.session_state.tasks = []
+    st.session_state.pet = Pet(pet_name, species, st.session_state.tasks)
+    st.session_state.owner.add_pet(st.session_state.pet)
 
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -55,16 +63,24 @@ with col1:
 with col2:
     duration = st.number_input("Duration (minutes)", min_value=1, max_value=240, value=20)
 with col3:
-    priority = st.selectbox("Priority", ["low", "medium", "high"], index=2)
+    priority = st.selectbox("Priority", list(Priority), index=2, format_func=lambda p: p.value)
 
 if st.button("Add task"):
     st.session_state.tasks.append(
         {"title": task_title, "duration_minutes": int(duration), "priority": priority}
     )
+    task = Task(task_title,
+        st.session_state.time,
+        st.session_state.time + timedelta(minutes=duration),
+        priority
+    )
+    st.session_state.time += timedelta(minutes=duration)
+    st.session_state.owner.scheduler.add_task(st.session_state.pet, task)
 
 if st.session_state.tasks:
     st.write("Current tasks:")
-    st.table(st.session_state.tasks)
+    # st.table(st.session_state.tasks)
+    st.table(st.session_state.owner.scheduler.view_schedule(st.session_state.pet, date(2025, 6, 1)))
 else:
     st.info("No tasks yet. Add one above.")
 
