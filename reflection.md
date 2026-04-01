@@ -12,10 +12,14 @@ Three core actions users should be able to perform:
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
 
+My initial UML design consisted of an Owner, Pet, Task, and Scheduler class. An Owner holds a list of Pet objects, can add a pet, and holds a Scheduler object it can call to work on a pet's schedule. Pets hold a list of Tasks. Tasks hold a start time, end time, frequency, completion status, and priority. A Scheduler schedules a task in a pet's schedule, and can return all tasks for a pet for a certain day.
+
 **b. Design changes**
 
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
+
+I ended up making two changes. The first change was to change the Owner class to create a Scheduler as a default value for the scheduler parameter. This simplifies the syntax, as without it, users would have to pass in a scheduler every time a new Owner was made, like `owner = Owner("Alice", Scheduler())`. The second change was to change the type of the date parameter in the `Owner.view_schedule()` function from a str to a date object. This change lets the date be directly compared against the start times of tasks, removing the overhead of string parsing.
 
 ---
 

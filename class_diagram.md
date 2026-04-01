@@ -4,10 +4,9 @@
 classDiagram
     class Owner {
         +String name
+        +Scheduler scheduler
         +List~Pet~ pets
         +add_pet(pet: Pet)
-        +view_schedule(pet: Pet, date: String) List~Task~
-        +use_scheduler() Scheduler
     }
 
     class Pet {
@@ -22,10 +21,20 @@ classDiagram
         +DateTime start_time
         +DateTime end_time
         +int priority
+        +Frequency frequency
+        +bool is_complete
+    }
+
+    class Frequency {
+        <<enumeration>>
+        ONCE
+        DAILY
+        WEEKLY
     }
 
     class Scheduler {
         +add_task(pet: Pet, task: Task)
+        +view_schedule(pets: Pet | List~Pet~, date: Date) List~Task~
     }
 
     Owner "1" --> "0..*" Pet : owns
@@ -33,4 +42,5 @@ classDiagram
     Pet "1" --> "0..*" Task : has scheduled
     Scheduler ..> Pet : modifies schedule of
     Scheduler ..> Task : adds
+    Task --> Frequency : has
 ```
