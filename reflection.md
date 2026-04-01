@@ -35,6 +35,19 @@ I ended up making two changes. The first change was to change the Owner class to
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
 
+One tradeoff the scheduler makes is that conflict detection is currently per-pet, not cross-pet. This is reasonable for the current scenario because there is no UI functionality to add new pets, so users will only be tracking tasks for just one pet.
+
+---
+
+## Testing PawPal+
+
+Command to run tests:
+- `python -m pytest`
+
+The tests cover completion status, task count integrity, sorting, recurrence, conflict detection, boundary sharing, and recurring tasks possibly causing conflict. 
+
+Based on my test results, I give a confidence level of 3 stars for the system's reliability, mainly because of date and status filtering not being tested, cross-pet conflict detection not being present, and other cases that may still be not tested.
+
 ---
 
 ## 3. AI Collaboration
